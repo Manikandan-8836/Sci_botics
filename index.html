@@ -1,0 +1,2217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCI_BOTICS — Industrial Robotics & Automation | Robot Programming, Maintenance & PLC</title>
+    <meta name="description" content="SCI_BOTICS provides industrial robot programming, maintenance, PLC programming, and automation support. 4+ years experience with ABB, FANUC, KUKA, and more. 24×7 support." />
+    <meta property="og:title" content="SCI_BOTICS — Industrial Robotics & Automation" />
+    <meta property="og:description" content="Professional industrial robot programming, maintenance, PLC programming, and automation support. 24×7 service." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0a0e17" />
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111927;
+            --bg-card: #162033;
+            --bg-card-hover: #1c2a42;
+            --text-primary: #f0f4fa;
+            --text-secondary: #b0c4de;
+            --text-muted: #6a7f9e;
+            --accent-cyan: #00b4d8;
+            --accent-cyan-glow: rgba(0, 180, 216, 0.25);
+            --accent-orange: #f77f00;
+            --accent-orange-glow: rgba(247, 127, 0, 0.25);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
+            --radius: 14px;
+            --radius-sm: 8px;
+            --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        button {
+            cursor: pointer;
+            font-family: var(--font);
+            border: none;
+            background: none;
+            color: inherit;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-cyan);
+            border-radius: 10px;
+        }
+
+        /* ===== REVEAL ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(10, 14, 23, 0.85);
+            backdrop-filter: blur(16px) saturate(1.2);
+            border-bottom: 1px solid var(--border-subtle);
+            transition: var(--transition);
+        }
+        .navbar.scrolled {
+            background: rgba(10, 14, 23, 0.96);
+            padding: 10px 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .logo span {
+            color: var(--accent-cyan);
+        }
+        .logo-sub {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            display: block;
+            margin-top: -2px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        .nav-links a {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+            letter-spacing: 0.3px;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            transition: var(--transition);
+        }
+        .nav-links a:hover {
+            color: #fff;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-cta {
+            background: var(--accent-cyan);
+            color: #fff !important;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600 !important;
+            font-size: 0.8rem !important;
+            transition: var(--transition);
+        }
+        .nav-cta::after {
+            display: none !important;
+        }
+        .nav-cta:hover {
+            background: #0095b8;
+            transform: scale(1.03);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 6px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .hamburger span {
+            display: block;
+            width: 26px;
+            height: 2.5px;
+            background: var(--text-primary);
+            border-radius: 4px;
+            transition: var(--transition);
+            transform-origin: center;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile WhatsApp fixed button */
+        .mobile-wa-fab {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999;
+            background: #25D366;
+            color: #fff;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 6px 24px rgba(37, 211, 102, 0.4);
+            transition: var(--transition);
+        }
+        .mobile-wa-fab:hover {
+            transform: scale(1.08);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-primary);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(0, 180, 216, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(247, 127, 0, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(0, 180, 216, 0.04) 0%, transparent 40%);
+            pointer-events: none;
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 180, 216, 0.12);
+            border: 1px solid rgba(0, 180, 216, 0.2);
+            padding: 6px 16px 6px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            letter-spacing: 0.5px;
+            width: fit-content;
+        }
+        .hero-badge i {
+            font-size: 0.7rem;
+        }
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #fff 60%, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+        .hero-subtitle strong {
+            color: var(--accent-orange);
+            font-weight: 600;
+        }
+        .hero-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 480px;
+            line-height: 1.8;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin: 6px 0 4px;
+        }
+        .hero-stats-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .hero-stats-item .number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+        }
+        .hero-stats-item .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 6px;
+        }
+        .btn-primary {
+            background: var(--accent-cyan);
+            color: #fff;
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px var(--accent-cyan-glow);
+        }
+        .btn-primary:hover {
+            background: #0095b8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px var(--accent-cyan-glow);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-secondary:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 180, 216, 0.06);
+            transform: translateY(-2px);
+        }
+        .btn-whatsapp {
+            background: #25D366;
+            color: #fff;
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+        }
+        .btn-whatsapp:hover {
+            background: #1da851;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(37, 211, 102, 0.4);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .hero-robot-placeholder {
+            width: 100%;
+            max-width: 520px;
+            aspect-ratio: 1/1;
+            background: radial-gradient(ellipse at 30% 40%, rgba(0, 180, 216, 0.06), transparent 70%),
+                radial-gradient(ellipse at 70% 60%, rgba(247, 127, 0, 0.04), transparent 50%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .hero-robot-placeholder .robot-svg {
+            width: 90%;
+            height: 90%;
+            filter: drop-shadow(0 20px 60px rgba(0, 180, 216, 0.15));
+        }
+        .hero-robot-placeholder .glow-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 180, 216, 0.08);
+            animation: pulse-ring 4s ease-in-out infinite;
+        }
+        .hero-robot-placeholder .glow-ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            animation-delay: 1s;
+        }
+        .hero-robot-placeholder .glow-ring:nth-child(3) {
+            width: 100%;
+            height: 100%;
+            animation-delay: 2s;
+        }
+        @keyframes pulse-ring {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        /* ===== SECTION COMMON ===== */
+        .section {
+            padding: 80px 0;
+            position: relative;
+        }
+        .section-dark {
+            background: var(--bg-secondary);
+        }
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 56px;
+        }
+        .section-header .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            background: rgba(0, 180, 216, 0.1);
+            padding: 4px 16px;
+            border-radius: 50px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0, 180, 216, 0.12);
+        }
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.15;
+        }
+        .section-header h2 span {
+            color: var(--accent-cyan);
+        }
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-top: 12px;
+        }
+
+        /* ===== ABOUT ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .about-text h2 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+        .about-text h2 span {
+            color: var(--accent-cyan);
+        }
+        .about-text p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .about-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 24px;
+        }
+        .about-stat {
+            background: var(--bg-card);
+            padding: 20px 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+        }
+        .about-stat:hover {
+            border-color: rgba(0, 180, 216, 0.2);
+            transform: translateY(-4px);
+        }
+        .about-stat .number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            display: block;
+        }
+        .about-stat .label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .about-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .about-visual .placeholder-img {
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 4/3;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--text-muted);
+            position: relative;
+            overflow: hidden;
+        }
+        .about-visual .placeholder-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 180, 216, 0.04), rgba(247, 127, 0, 0.04));
+        }
+
+        /* ===== SERVICES ===== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 24px;
+        }
+        .service-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 28px 22px;
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-orange));
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .service-card:hover {
+            border-color: rgba(0, 180, 216, 0.2);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-card);
+        }
+        .service-card:hover::before {
+            opacity: 1;
+        }
+        .service-card .icon {
+            font-size: 2rem;
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+        }
+        .service-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .service-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        .service-card .explore-btn {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+        .service-card .explore-btn i {
+            transition: var(--transition);
+        }
+        .service-card:hover .explore-btn i {
+            transform: translateX(4px);
+        }
+
+        /* ===== ROBOT PLATFORMS ===== */
+        .robot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+        }
+        .robot-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 24px 16px;
+            text-align: center;
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        .robot-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-6px);
+            box-shadow: 0 8px 32px rgba(0, 180, 216, 0.08);
+            background: var(--bg-card-hover);
+        }
+        .robot-card .robot-icon {
+            font-size: 2.4rem;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+            display: block;
+        }
+        .robot-card .name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+        .robot-card .badge {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+            display: block;
+        }
+        .robot-card .click-hint {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            opacity: 0.6;
+        }
+
+        /* ===== APPLICATIONS SHOWCASE ===== */
+        .app-showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .app-showcase-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 24px 18px;
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+            text-align: center;
+        }
+        .app-showcase-card:hover {
+            border-color: rgba(0, 180, 216, 0.2);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card);
+        }
+        .app-showcase-card .icon {
+            font-size: 2.2rem;
+            color: var(--accent-orange);
+            margin-bottom: 10px;
+        }
+        .app-showcase-card h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+        .app-showcase-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* ===== EXPERIENCE ===== */
+        .exp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        .exp-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+        }
+        .exp-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 180, 216, 0.15);
+            box-shadow: var(--shadow-card);
+        }
+        .exp-card .exp-img {
+            height: 160px;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 3rem;
+            position: relative;
+        }
+        .exp-card .exp-img .placeholder-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            opacity: 0.4;
+        }
+        .exp-card .exp-body {
+            padding: 18px 20px 20px;
+        }
+        .exp-card .exp-body h4 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .exp-card .exp-body .meta {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            margin: 2px 0 6px;
+        }
+        .exp-card .exp-body p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ===== WHY ===== */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+        }
+        .why-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 28px 22px;
+            border: 1px solid var(--border-subtle);
+            text-align: center;
+            transition: var(--transition);
+        }
+        .why-card:hover {
+            border-color: rgba(0, 180, 216, 0.15);
+            transform: translateY(-4px);
+        }
+        .why-card .icon {
+            font-size: 2.2rem;
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+        }
+        .why-card h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .why-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ===== 24/7 SUPPORT ===== */
+        .support-cta {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 56px 48px;
+            text-align: center;
+            border: 1px solid var(--border-subtle);
+            position: relative;
+            overflow: hidden;
+        }
+        .support-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(0, 180, 216, 0.04), transparent 70%);
+            pointer-events: none;
+        }
+        .support-cta h2 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .support-cta h2 span {
+            color: var(--accent-cyan);
+        }
+        .support-cta p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin: 8px 0 16px;
+        }
+        .support-cta .phone-large {
+            font-size: 2.6rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #fff;
+            margin: 12px 0 20px;
+            display: block;
+        }
+        .support-cta .phone-large i {
+            color: var(--accent-cyan);
+            margin-right: 12px;
+        }
+        .support-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+        .btn-call {
+            background: var(--accent-cyan);
+            color: #fff;
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-call:hover {
+            background: #0095b8;
+            transform: scale(1.03);
+        }
+        .btn-wa {
+            background: #25D366;
+            color: #fff;
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-wa:hover {
+            background: #1da851;
+            transform: scale(1.03);
+        }
+        .btn-enquiry {
+            background: transparent;
+            color: #fff;
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-enquiry:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 180, 216, 0.06);
+        }
+
+        /* ===== CONTACT ===== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+        .contact-form {
+            background: var(--bg-card);
+            padding: 40px 36px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-subtle);
+        }
+        .contact-form h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.03);
+            color: #fff;
+            font-family: var(--font);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            outline: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 180, 216, 0.04);
+            box-shadow: 0 0 0 3px var(--accent-cyan-glow);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b0c4de' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            cursor: pointer;
+        }
+        .form-group select option {
+            background: var(--bg-secondary);
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-cyan);
+            color: #fff;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: var(--transition);
+            margin-top: 4px;
+        }
+        .submit-btn:hover {
+            background: #0095b8;
+            transform: scale(1.01);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 24px;
+        }
+        .contact-info h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+        .contact-info h3 span {
+            color: var(--accent-cyan);
+        }
+        .contact-info p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--bg-card);
+            padding: 16px 20px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+        }
+        .contact-info-item:hover {
+            border-color: rgba(0, 180, 216, 0.15);
+        }
+        .contact-info-item .icon {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            width: 44px;
+            text-align: center;
+        }
+        .contact-info-item .text {
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .contact-info-item .sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-subtle);
+            padding: 40px 0 24px;
+            text-align: center;
+        }
+        .footer .logo {
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+        .footer p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .footer .socials {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 16px 0 12px;
+        }
+        .footer .socials a {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        .footer .socials a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* ===== ROBOT MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-overlay .modal-content {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px 36px;
+            border: 1px solid var(--border-subtle);
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .modal-overlay .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 1.6rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.04);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-subtle);
+        }
+        .modal-overlay .modal-close:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+            transform: rotate(90deg);
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-right: 40px;
+        }
+        .modal-header .robot-icon-lg {
+            font-size: 3rem;
+            color: var(--accent-cyan);
+        }
+        .modal-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+        .modal-header .sub {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .modal-apps {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .modal-app-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            padding: 18px 16px;
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+            cursor: default;
+        }
+        .modal-app-card:hover {
+            border-color: rgba(0, 180, 216, 0.2);
+            transform: translateY(-3px);
+        }
+        .modal-app-card .app-icon {
+            font-size: 1.6rem;
+            color: var(--accent-orange);
+            margin-bottom: 6px;
+        }
+        .modal-app-card h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .modal-app-card p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin-top: 4px;
+        }
+        .modal-footer {
+            margin-top: 28px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            border-top: 1px solid var(--border-subtle);
+            padding-top: 24px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero-grid {
+                gap: 40px;
+            }
+            .about-grid {
+                gap: 40px;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 820px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-content {
+                align-items: center;
+            }
+            .hero-text {
+                max-width: 100%;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .hero-stats {
+                justify-content: center;
+            }
+            .hero-robot-placeholder {
+                max-width: 320px;
+            }
+            .about-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .about-stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .support-cta {
+                padding: 40px 24px;
+            }
+            .support-cta h2 {
+                font-size: 1.8rem;
+            }
+            .support-cta .phone-large {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(10, 14, 23, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                gap: 24px;
+                padding: 40px;
+                transform: translateX(100%);
+                transition: var(--transition);
+                display: flex;
+                align-items: center;
+            }
+            .nav-links.open {
+                transform: translateX(0);
+            }
+            .nav-links a {
+                font-size: 1.1rem;
+            }
+            .nav-cta {
+                font-size: 1rem !important;
+                padding: 12px 32px;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .mobile-wa-fab {
+                display: flex;
+            }
+
+            .hero {
+                padding: 100px 0 60px;
+                min-height: auto;
+            }
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            .hero-stats {
+                gap: 24px;
+                flex-wrap: wrap;
+            }
+            .hero-stats-item .number {
+                font-size: 1.4rem;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+            .hero-buttons .btn-primary,
+            .hero-buttons .btn-secondary,
+            .hero-buttons .btn-whatsapp {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .section {
+                padding: 56px 0;
+            }
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            .section-header p {
+                font-size: 0.95rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+            .service-card {
+                padding: 20px 16px;
+            }
+            .service-card .icon {
+                font-size: 1.6rem;
+            }
+            .service-card h3 {
+                font-size: 0.85rem;
+            }
+            .service-card p {
+                font-size: 0.75rem;
+            }
+
+            .robot-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            .robot-card {
+                padding: 16px 8px;
+            }
+            .robot-card .robot-icon {
+                font-size: 1.8rem;
+            }
+            .robot-card .name {
+                font-size: 0.75rem;
+            }
+
+            .app-showcase-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+            .app-showcase-card {
+                padding: 16px 12px;
+            }
+            .app-showcase-card .icon {
+                font-size: 1.6rem;
+            }
+            .app-showcase-card h4 {
+                font-size: 0.8rem;
+            }
+
+            .exp-grid {
+                grid-template-columns: 1fr;
+            }
+            .why-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+            .why-card {
+                padding: 20px 16px;
+            }
+
+            .support-cta {
+                padding: 32px 20px;
+            }
+            .support-cta h2 {
+                font-size: 1.5rem;
+            }
+            .support-cta .phone-large {
+                font-size: 1.6rem;
+            }
+            .support-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .support-buttons .btn-call,
+            .support-buttons .btn-wa,
+            .support-buttons .btn-enquiry {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .contact-form {
+                padding: 28px 20px;
+            }
+            .contact-info-item {
+                padding: 12px 16px;
+            }
+            .contact-info-item .text {
+                font-size: 0.95rem;
+            }
+
+            .modal-overlay .modal-content {
+                padding: 24px 16px;
+            }
+            .modal-header h2 {
+                font-size: 1.4rem;
+            }
+            .modal-apps {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .modal-app-card {
+                padding: 14px 12px;
+            }
+            .modal-app-card h4 {
+                font-size: 0.8rem;
+            }
+            .modal-app-card p {
+                font-size: 0.7rem;
+            }
+            .modal-footer {
+                flex-direction: column;
+                align-items: center;
+            }
+            .modal-footer .btn-primary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .about-stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .about-stat {
+                padding: 14px 16px;
+            }
+            .about-stat .number {
+                font-size: 1.4rem;
+            }
+            .about-stat .label {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .robot-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .robot-card {
+                padding: 12px 6px;
+            }
+            .robot-card .robot-icon {
+                font-size: 1.4rem;
+            }
+            .robot-card .name {
+                font-size: 0.65rem;
+            }
+            .app-showcase-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .why-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .modal-apps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                SCI<span>_BOTICS</span>
+                <span class="logo-sub">INDUSTRIAL ROBOTICS</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#robots">Robots</a></li>
+                <li><a href="#applications">Applications</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact" class="nav-cta"><i class="fas fa-phone"></i> +91 8078367097</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE WHATSAPP FAB ===== -->
+    <a href="https://wa.me/918078367097" target="_blank" class="mobile-wa-fab" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <i class="fas fa-robot"></i> 4+ Years Industrial Experience
+                    </div>
+                    <h1>INDUSTRIAL ROBOTICS &amp; AUTOMATION</h1>
+                    <p class="hero-subtitle">
+                        <strong>Robot Programming</strong> &bull; <strong>Maintenance</strong> &bull;
+                        <strong>PLC Programming</strong> &bull; <strong>Industrial Automation</strong>
+                    </p>
+                    <p class="hero-text">
+                        SCI_BOTICS delivers professional industrial robot programming, maintenance,
+                        PLC programming, and automation support across multiple robot platforms.
+                        <strong>24×7</strong> industrial robotics support — anytime, anywhere.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="hero-stats-item">
+                            <span class="number" data-count="4">0</span>
+                            <span class="label">+ Years Experience</span>
+                        </div>
+                        <div class="hero-stats-item">
+                            <span class="number">11</span>
+                            <span class="label">Robot Platforms</span>
+                        </div>
+                        <div class="hero-stats-item">
+                            <span class="number">24×7</span>
+                            <span class="label">Support</span>
+                        </div>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="#contact" class="btn-primary"><i class="fas fa-paper-plane"></i> CONTACT US</a>
+                        <a href="#services" class="btn-secondary"><i class="fas fa-cogs"></i> EXPLORE SERVICES</a>
+                        <a href="https://wa.me/918078367097" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-robot-placeholder">
+                        <div class="glow-ring"></div>
+                        <div class="glow-ring"></div>
+                        <div class="glow-ring"></div>
+                        <svg class="robot-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Industrial robot arm illustration -->
+                            <circle cx="200" cy="200" r="120" stroke="rgba(0,180,216,0.06)" stroke-width="2"/>
+                            <circle cx="200" cy="200" r="80" stroke="rgba(0,180,216,0.08)" stroke-width="1.5"/>
+                            <!-- Base -->
+                            <rect x="160" y="280" width="80" height="40" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.06)" stroke-width="1.5"/>
+                            <rect x="170" y="270" width="60" height="16" rx="4" fill="rgba(0,180,216,0.08)" stroke="rgba(0,180,216,0.12)" stroke-width="1"/>
+                            <!-- Arm segment 1 -->
+                            <rect x="185" y="140" width="30" height="100" rx="8" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" transform="rotate(-8, 200, 190)"/>
+                            <!-- Joint -->
+                            <circle cx="200" cy="240" r="18" fill="rgba(0,180,216,0.08)" stroke="rgba(0,180,216,0.15)" stroke-width="2"/>
+                            <circle cx="200" cy="240" r="8" fill="rgba(0,180,216,0.15)"/>
+                            <!-- Arm segment 2 -->
+                            <rect x="195" y="80" width="20" height="70" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" transform="rotate(12, 205, 115)"/>
+                            <!-- End effector -->
+                            <rect x="190" y="60" width="30" height="24" rx="4" fill="rgba(247,127,0,0.08)" stroke="rgba(247,127,0,0.15)" stroke-width="1.5"/>
+                            <rect x="198" y="48" width="14" height="16" rx="2" fill="rgba(247,127,0,0.12)" stroke="rgba(247,127,0,0.1)" stroke-width="1"/>
+                            <!-- Glow dots -->
+                            <circle cx="160" cy="300" r="3" fill="rgba(0,180,216,0.3)"/>
+                            <circle cx="240" cy="300" r="3" fill="rgba(0,180,216,0.3)"/>
+                            <circle cx="180" cy="310" r="2" fill="rgba(0,180,216,0.2)"/>
+                            <circle cx="220" cy="310" r="2" fill="rgba(0,180,216,0.2)"/>
+                            <!-- Accent lines -->
+                            <line x1="140" y1="320" x2="260" y2="320" stroke="rgba(0,180,216,0.04)" stroke-width="1"/>
+                            <line x1="120" y1="340" x2="280" y2="340" stroke="rgba(0,180,216,0.03)" stroke-width="1"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="section section-dark" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text reveal">
+                    <span class="tag" style="display:inline-block;margin-bottom:8px;">ABOUT</span>
+                    <h2>About <span>SCI_BOTICS</span></h2>
+                    <p>
+                        SCI_BOTICS is an industrial robotics and automation freelancing service
+                        focused on robot programming, maintenance, PLC programming, troubleshooting,
+                        and industrial robotic applications.
+                    </p>
+                    <p>
+                        With <strong>4+ years of industrial experience</strong>, SCI_BOTICS works
+                        across multiple industrial robot platforms and applications. We support
+                        manufacturing and automation requirements with practical industrial
+                        experience and flexible service support.
+                    </p>
+                    <div class="about-stats-grid">
+                        <div class="about-stat">
+                            <span class="number">4+</span>
+                            <span class="label">Years Experience</span>
+                        </div>
+                        <div class="about-stat">
+                            <span class="number">11</span>
+                            <span class="label">Robot Brands</span>
+                        </div>
+                        <div class="about-stat">
+                            <span class="number">24×7</span>
+                            <span class="label">Support Available</span>
+                        </div>
+                        <div class="about-stat">
+                            <span class="number">18+</span>
+                            <span class="label">Applications</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual reveal-right">
+                    <div class="placeholder-img">
+                        <i class="fas fa-robot" style="font-size:5rem;opacity:0.15;"></i>
+                        <span style="position:absolute;font-size:0.7rem;color:var(--text-muted);bottom:16px;opacity:0.4;">[ Industrial Robotics ]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SERVICES ===== -->
+    <section class="section" id="services">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="tag">What We Do</span>
+                <h2>Our <span>Services</span></h2>
+                <p>Comprehensive industrial robotics and automation solutions across multiple platforms and applications.</p>
+            </div>
+            <div class="services-grid" id="servicesGrid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ROBOT PLATFORMS ===== -->
+    <section class="section section-dark" id="robots">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="tag">Robot Platforms</span>
+                <h2>Robot Brands We <span>Work With</span></h2>
+                <p>Click any robot brand to explore the applications SCI_BOTICS supports on that platform.</p>
+            </div>
+            <div class="robot-grid" id="robotGrid">
+                <!-- Populated by JS -->
+            </div>
+            <p style="text-align:center;color:var(--text-muted);font-size:0.75rem;margin-top:20px;opacity:0.6;">
+                SCI_BOTICS is an independent service provider experienced with these platforms.
+            </p>
+        </div>
+    </section>
+
+    <!-- ===== APPLICATIONS SHOWCASE ===== -->
+    <section class="section" id="applications">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="tag">Applications</span>
+                <h2>Industrial <span>Applications</span></h2>
+                <p>Robotic solutions across welding, handling, dispensing, and more.</p>
+            </div>
+            <div class="app-showcase-grid" id="appShowcase">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== EXPERIENCE ===== -->
+    <section class="section section-dark" id="experience">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="tag">Experience</span>
+                <h2>Our Industrial <span>Experience</span></h2>
+                <p>Real-world expertise across multiple industries and applications.</p>
+            </div>
+            <div class="exp-grid" id="expGrid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== WHY ===== -->
+    <section class="section" id="why">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="tag">Why SCI_BOTICS</span>
+                <h2>Why Choose <span>SCI_BOTICS?</span></h2>
+                <p>Industrial robotics expertise you can rely on.</p>
+            </div>
+            <div class="why-grid" id="whyGrid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 24/7 SUPPORT ===== -->
+    <section class="section section-dark" id="support">
+        <div class="container">
+            <div class="support-cta reveal">
+                <span class="tag" style="display:inline-block;margin-bottom:8px;background:rgba(247,127,0,0.1);color:var(--accent-orange);border-color:rgba(247,127,0,0.15);">
+                    <i class="fas fa-clock"></i> 24×7 Support
+                </span>
+                <h2>Industrial Robot Support — <span>Anytime. Anywhere.</span></h2>
+                <p>
+                    Need robot programming, troubleshooting, maintenance, or PLC support?
+                    <br />SCI_BOTICS is ready to support your industrial automation requirements.
+                </p>
+                <span class="phone-large">
+                    <i class="fas fa-phone"></i> +91 8078367097
+                </span>
+                <div class="support-buttons">
+                    <a href="tel:+918078367097" class="btn-call"><i class="fas fa-phone"></i> CALL NOW</a>
+                    <a href="https://wa.me/918078367097" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> WHATSAPP NOW</a>
+                    <a href="#contact" class="btn-enquiry"><i class="fas fa-envelope"></i> SEND ENQUIRY</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="tag">Get in Touch</span>
+                <h2>Contact <span>SCI_BOTICS</span></h2>
+                <p>Reach out for industrial robotics support, programming, maintenance, or automation projects.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-form reveal">
+                    <h3><i class="fas fa-paper-plane" style="color:var(--accent-cyan);margin-right:8px;"></i> Send Enquiry</h3>
+                    <form id="contactForm" onsubmit="return false;">
+                        <div class="form-group">
+                            <label for="cname">Full Name *</label>
+                            <input type="text" id="cname" placeholder="Your name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="ccompany">Company</label>
+                            <input type="text" id="ccompany" placeholder="Company name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="cphone">Phone Number *</label>
+                            <input type="tel" id="cphone" placeholder="+91 8078367097" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="cemail">Email</label>
+                            <input type="email" id="cemail" placeholder="your@email.com" />
+                        </div>
+                        <div class="form-group">
+                            <label for="crobot">Robot Brand</label>
+                            <select id="crobot">
+                                <option value="">Select a brand</option>
+                                <option value="ABB">ABB</option>
+                                <option value="FANUC">FANUC</option>
+                                <option value="KUKA">KUKA</option>
+                                <option value="YASKAWA">YASKAWA</option>
+                                <option value="OTC">OTC</option>
+                                <option value="Kawasaki">Kawasaki</option>
+                                <option value="Mitsubishi">Mitsubishi</option>
+                                <option value="Epson">Epson</option>
+                                <option value="Panasonic">Panasonic</option>
+                                <option value="Elite">Elite</option>
+                                <option value="Universal Robots">Universal Robots</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="capp">Application</label>
+                            <select id="capp">
+                                <option value="">Select an application</option>
+                                <option value="Material Handling">Material Handling</option>
+                                <option value="Packing">Packing</option>
+                                <option value="Taping">Taping</option>
+                                <option value="Sealant">Sealant</option>
+                                <option value="Gluing">Gluing</option>
+                                <option value="MIG Welding">MIG Welding</option>
+                                <option value="TIG Welding">TIG Welding</option>
+                                <option value="Spot Welding">Spot Welding</option>
+                                <option value="Painting">Painting</option>
+                                <option value="Screwing">Screwing</option>
+                                <option value="Tending">Tending</option>
+                                <option value="Forging">Forging</option>
+                                <option value="Laser Cladding">Laser Cladding</option>
+                                <option value="PLC Programming">PLC Programming</option>
+                                <option value="Robot Maintenance">Robot Maintenance</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cmsg">Message</label>
+                            <textarea id="cmsg" placeholder="Tell us about your requirement…"></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> SEND ENQUIRY</button>
+                    </form>
+                </div>
+                <div class="contact-info reveal-right">
+                    <h3>Get in <span>Touch</span></h3>
+                    <p>
+                        Whether you need robot programming, maintenance, troubleshooting,
+                        or automation support — we're here to help.
+                    </p>
+                    <div class="contact-info-item">
+                        <span class="icon"><i class="fas fa-phone"></i></span>
+                        <div>
+                            <div class="text">+91 8078367097</div>
+                            <div class="sub">Call or WhatsApp</div>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <span class="icon"><i class="fas fa-clock"></i></span>
+                        <div>
+                            <div class="text">24×7 Support</div>
+                            <div class="sub">Anytime. Anywhere.</div>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <span class="icon"><i class="fas fa-robot"></i></span>
+                        <div>
+                            <div class="text">Multi-Brand Expertise</div>
+                            <div class="sub">ABB · FANUC · KUKA · YASKAWA · OTC · Kawasaki · Mitsubishi · Epson · Panasonic · Elite · Universal Robots</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+                        <a href="tel:+918078367097" class="btn-primary" style="flex:1;justify-content:center;padding:12px 20px;"><i class="fas fa-phone"></i> Call Now</a>
+                        <a href="https://wa.me/918078367097" target="_blank" class="btn-whatsapp" style="flex:1;justify-content:center;padding:12px 20px;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="logo" style="justify-content:center;">
+                SCI<span>_BOTICS</span>
+                <span class="logo-sub">INDUSTRIAL ROBOTICS &amp; AUTOMATION</span>
+            </a>
+            <div class="socials">
+                <a href="https://wa.me/918078367097" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="tel:+918078367097" aria-label="Phone"><i class="fas fa-phone"></i></a>
+                <a href="mailto:info@sci-botics.in" aria-label="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p style="font-size:0.8rem;color:var(--text-muted);">
+                &copy; 2026 SCI_BOTICS — Industrial Robotics &amp; Automation &bull; 24×7 Support &bull; +91 8078367097
+            </p>
+            <p style="font-size:0.65rem;color:var(--text-muted);opacity:0.4;margin-top:4px;">
+                Independent industrial robotics service provider.
+            </p>
+        </div>
+    </footer>
+
+    <!-- ===== ROBOT MODAL ===== -->
+    <div class="modal-overlay" id="robotModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+            <div class="modal-header">
+                <span class="robot-icon-lg"><i class="fas fa-robot"></i></span>
+                <div>
+                    <h2 id="modalTitle">Robot Brand</h2>
+                    <div class="sub" id="modalSub">Applications supported by SCI_BOTICS</div>
+                </div>
+            </div>
+            <div id="modalAppsContainer" class="modal-apps">
+                <!-- Populated by JS -->
+            </div>
+            <div class="modal-footer">
+                <a href="#contact" class="btn-primary"><i class="fas fa-paper-plane"></i> Contact SCI_BOTICS</a>
+                <a href="https://wa.me/918078367097" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== DATA =====
+        const servicesData = [
+            { id: 1, icon: 'fa-code', name: 'Robot Programming', desc: 'Expert programming for all major industrial robot brands.' },
+            { id: 2, icon: 'fa-wrench', name: 'Robot Maintenance', desc: 'Preventive and corrective maintenance to maximize uptime.' },
+            { id: 3, icon: 'fa-exclamation-triangle', name: 'Robot Troubleshooting', desc: 'Rapid diagnostics and issue resolution.' },
+            { id: 4, icon: 'fa-microchip', name: 'PLC Programming', desc: 'Professional PLC programming and integration.' },
+            { id: 5, icon: 'fa-boxes', name: 'Material Handling', desc: 'Robot-based picking, transferring and positioning.' },
+            { id: 6, icon: 'fa-box', name: 'Packing', desc: 'Automated product packing and handling solutions.' },
+            { id: 7, icon: 'fa-tape', name: 'Taping', desc: 'Automated tape application for assembly and packaging.' },
+            { id: 8, icon: 'fa-syringe', name: 'Sealant Application', desc: 'Precise robotic sealant dispensing.' },
+            { id: 9, icon: 'fa-flask', name: 'Gluing', desc: 'Automated adhesive application for assembly.' },
+            { id: 10, icon: 'fa-fire', name: 'MIG Welding', desc: 'Industrial robotic MIG welding applications.' },
+            { id: 11, icon: 'fa-bolt', name: 'TIG Welding', desc: 'Precision robotic TIG welding solutions.' },
+            { id: 12, icon: 'fa-circle', name: 'Spot Welding', desc: 'Automated spot welding for metal joining.' },
+            { id: 13, icon: 'fa-paint-roller', name: 'Painting', desc: 'Robotic industrial painting and coating.' },
+            { id: 14, icon: 'fa-tools', name: 'Screwing', desc: 'Automated screwdriving and fastening operations.' },
+            { id: 15, icon: 'fa-industry', name: 'Tending', desc: 'Machine tending and part handling automation.' },
+            { id: 16, icon: 'fa-hammer', name: 'Forging', desc: 'Robotic handling and support for forging operations.' },
+            { id: 17, icon: 'fa-bolt', name: 'Laser Cladding', desc: 'Robotic laser cladding and surface treatment.' },
+            { id: 18, icon: 'fa-headset', name: 'Automation Support', desc: 'Comprehensive automation support and integration.' },
+        ];
+
+        const robotBrands = [
+            'ABB', 'FANUC', 'KUKA', 'YASKAWA', 'OTC',
+            'Kawasaki', 'Mitsubishi', 'Epson', 'Panasonic',
+            'Elite', 'Universal Robots'
+        ];
+
+        const appDescriptions = {
+            'Material Handling': 'Robot-based picking, transferring, and positioning of parts and materials.',
+            'Packing': 'Automated product packing, sorting, and handling for packaging lines.',
+            'Taping': 'Automated tape application for assembly, packaging, and surface protection.',
+            'Sealant': 'Precise robotic sealant dispensing for waterproofing and bonding applications.',
+            'Gluing': 'Automated adhesive application for structural and assembly bonding.',
+            'MIG Welding': 'Industrial robotic MIG welding for structural and fabrication applications.',
+            'TIG Welding': 'Precision robotic TIG welding for high-quality, clean welds.',
+            'Spot Welding': 'Automated spot welding for sheet metal joining and fabrication.',
+            'Painting': 'Robotic industrial painting, coating, and finishing applications.',
+            'Screwing': 'Automated screwdriving and fastening for assembly operations.',
+            'Tending': 'Machine tending, part loading/unloading, and handling automation.',
+            'Forging': 'Robotic handling and support for hot forging operations.',
+            'Laser Cladding': 'Robotic laser cladding for surface enhancement and repair.',
+            'PLC Programming': 'Professional PLC programming and control system integration.',
+            'Robot Maintenance': 'Preventive and corrective maintenance for all robot brands.',
+            'Robot Troubleshooting': 'Rapid diagnostics and troubleshooting for robot systems.',
+            'Automation Support': 'Comprehensive automation support and system integration.'
+        };
+
+        const appIcons = {
+            'Material Handling': 'fa-boxes',
+            'Packing': 'fa-box',
+            'Taping': 'fa-tape',
+            'Sealant': 'fa-syringe',
+            'Gluing': 'fa-flask',
+            'MIG Welding': 'fa-fire',
+            'TIG Welding': 'fa-bolt',
+            'Spot Welding': 'fa-circle',
+            'Painting': 'fa-paint-roller',
+            'Screwing': 'fa-tools',
+            'Tending': 'fa-industry',
+            'Forging': 'fa-hammer',
+            'Laser Cladding': 'fa-bolt',
+            'PLC Programming': 'fa-microchip',
+            'Robot Maintenance': 'fa-wrench',
+            'Robot Troubleshooting': 'fa-exclamation-triangle',
+            'Automation Support': 'fa-headset'
+        };
+
+        // All applications per robot (same set for all, but we show them per brand)
+        const allAppKeys = [
+            'Material Handling', 'Packing', 'Taping', 'Sealant', 'Gluing',
+            'MIG Welding', 'TIG Welding', 'Spot Welding', 'Painting',
+            'Screwing', 'Tending', 'Forging', 'Laser Cladding'
+        ];
+
+        const whyData = [
+            { icon: 'fa-calendar-check', title: '4+ Years Industrial Experience', desc: 'Hands-on experience with industrial robotics and automation.' },
+            { icon: 'fa-robot', title: 'Multi-Brand Expertise', desc: 'Experience across major industrial robot platforms.' },
+            { icon: 'fa-cogs', title: 'Application Knowledge', desc: 'Experience across welding, handling, packing, dispensing, painting and more.' },
+            { icon: 'fa-code', title: 'Programming & Maintenance', desc: 'Robot programming, troubleshooting, maintenance and automation support.' },
+            { icon: 'fa-user-tie', title: 'Flexible Freelance Support', desc: 'Professional support for industrial automation requirements.' },
+            { icon: 'fa-clock', title: '24×7 Support', desc: 'Available for urgent industrial robotics support anytime.' },
+        ];
+
+        const expData = [
+            { type: 'Robotic Welding', app: 'MIG / TIG / Spot', industry: 'Fabrication', desc: 'Industrial welding applications across multiple robot platforms.' },
+            { type: 'Machine Tending', app: 'Tending', industry: 'Manufacturing', desc: 'Robot-based machine tending and part handling solutions.' },
+            { type: 'Material Handling', app: 'Material Handling', industry: 'Logistics', desc: 'Automated material handling and transfer systems.' },
+            { type: 'Sealant Application', app: 'Sealant', industry: 'Assembly', desc: 'Precise robotic sealant dispensing for assembly lines.' },
+            { type: 'Painting', app: 'Painting', industry: 'Coating', desc: 'Robotic painting and coating applications.' },
+            { type: 'Packing', app: 'Packing', industry: 'Packaging', desc: 'Automated packing and packaging solutions.' },
+            { type: 'Laser Cladding', app: 'Laser Cladding', industry: 'Surface Engineering', desc: 'Robotic laser cladding for surface enhancement.' },
+            { type: 'PLC Automation', app: 'PLC Programming', industry: 'Controls', desc: 'PLC programming and control system integration.' },
+        ];
+
+        const appShowcaseData = [
+            { name: 'Material Handling', icon: 'fa-boxes', desc: 'Picking, transferring and positioning.' },
+            { name: 'Packing', icon: 'fa-box', desc: 'Automated product packing.' },
+            { name: 'Taping', icon: 'fa-tape', desc: 'Automated tape application.' },
+            { name: 'Sealant', icon: 'fa-syringe', desc: 'Precise robotic dispensing.' },
+            { name: 'Gluing', icon: 'fa-flask', desc: 'Automated adhesive application.' },
+            { name: 'MIG Welding', icon: 'fa-fire', desc: 'Industrial robotic MIG welding.' },
+            { name: 'TIG Welding', icon: 'fa-bolt', desc: 'Precision robotic TIG welding.' },
+            { name: 'Spot Welding', icon: 'fa-circle', desc: 'Automated spot welding.' },
+            { name: 'Painting', icon: 'fa-paint-roller', desc: 'Robotic industrial painting.' },
+            { name: 'Screwing', icon: 'fa-tools', desc: 'Automated screwdriving.' },
+            { name: 'Tending', icon: 'fa-industry', desc: 'Machine tending & handling.' },
+            { name: 'Forging', icon: 'fa-hammer', desc: 'Robotic forging support.' },
+            { name: 'Laser Cladding', icon: 'fa-bolt', desc: 'Robotic laser cladding.' },
+        ];
+
+        // ===== RENDER FUNCTIONS =====
+        function renderServices() {
+            const grid = document.getElementById('servicesGrid');
+            grid.innerHTML = servicesData.map(s => `
+                    <div class="service-card reveal">
+                        <div class="icon"><i class="fas ${s.icon}"></i></div>
+                        <h3>${s.name}</h3>
+                        <p>${s.desc}</p>
+                        <span class="explore-btn">Explore <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                `).join('');
+        }
+
+        function renderRobots() {
+            const grid = document.getElementById('robotGrid');
+            grid.innerHTML = robotBrands.map(b => `
+                    <div class="robot-card" data-brand="${b}">
+                        <span class="robot-icon"><i class="fas fa-robot"></i></span>
+                        <div class="name">${b}</div>
+                        <span class="badge">Platform</span>
+                        <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to explore</div>
+                    </div>
+                `).join('');
+
+            document.querySelectorAll('.robot-card').forEach(card => {
+                card.addEventListener('click', () => openRobotModal(card.dataset.brand));
+                card.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    openRobotModal(card.dataset.brand);
+                });
+            });
+        }
+
+        function renderWhy() {
+            const grid = document.getElementById('whyGrid');
+            grid.innerHTML = whyData.map(w => `
+                    <div class="why-card reveal">
+                        <div class="icon"><i class="fas ${w.icon}"></i></div>
+                        <h4>${w.title}</h4>
+                        <p>${w.desc}</p>
+                    </div>
+                `).join('');
+        }
+
+        function renderExp() {
+            const grid = document.getElementById('expGrid');
+            grid.innerHTML = expData.map(e => `
+                    <div class="exp-card reveal">
+                        <div class="exp-img">
+                            <i class="fas fa-robot"></i>
+                            <span class="placeholder-label">[ ${e.type} ]</span>
+                        </div>
+                        <div class="exp-body">
+                            <h4>${e.type}</h4>
+                            <div class="meta">${e.app} · ${e.industry}</div>
+                            <p>${e.desc}</p>
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        function renderAppShowcase() {
+            const grid = document.getElementById('appShowcase');
+            grid.innerHTML = appShowcaseData.map(a => `
+                    <div class="app-showcase-card reveal">
+                        <div class="icon"><i class="fas ${a.icon}"></i></div>
+                        <h4>${a.name}</h4>
+                        <p>${a.desc}</p>
+                    </div>
+                `).join('');
+        }
+
+        // ===== ROBOT MODAL =====
+        function openRobotModal(brand) {
+            const modal = document.getElementById('robotModal');
+            const title = document.getElementById('modalTitle');
+            const container = document.getElementById('modalAppsContainer');
+
+            title.textContent = brand;
+
+            // Build app cards for this brand
+            container.innerHTML = allAppKeys.map(app => `
+                    <div class="modal-app-card">
+                        <div class="app-icon"><i class="fas ${appIcons[app] || 'fa-cog'}"></i></div>
+                        <h4>${app}</h4>
+                        <p>${appDescriptions[app] || 'Industrial robotic application.'}</p>
+                    </div>
+                `).join('');
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRobotModal() {
+            const modal = document.getElementById('robotModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('modalClose').addEventListener('click', closeRobotModal);
+        document.getElementById('robotModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeRobotModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeRobotModal();
+        });
+
+        // ===== NAVIGATION =====
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('open');
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // ===== SCROLL EFFECTS =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // ===== REVEAL ON SCROLL =====
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -20px 0px' });
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // ===== NUMBER COUNTER =====
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.count);
+                    if (target && !el.dataset.counted) {
+                        el.dataset.counted = 'true';
+                        let current = 0;
+                        const step = Math.ceil(target / 30);
+                        const timer = setInterval(() => {
+                            current += step;
+                            if (current >= target) {
+                                el.textContent = target + '+';
+                                clearInterval(timer);
+                            } else {
+                                el.textContent = current + '+';
+                            }
+                        }, 40);
+                    }
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.number[data-count]').forEach(el => {
+            counterObserver.observe(el);
+        });
+
+        // ===== CONTACT FORM =====
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('cname').value.trim();
+            const phone = document.getElementById('cphone').value.trim();
+            if (!name || !phone) {
+                alert('Please fill in your name and phone number.');
+                return;
+            }
+            const robot = document.getElementById('crobot').value;
+            const app = document.getElementById('capp').value;
+            const msg = document.getElementById('cmsg').value;
+            const body = `Name: ${name}\nCompany: ${document.getElementById('ccompany').value}\nPhone: ${phone}\nEmail: ${document.getElementById('cemail').value}\nRobot: ${robot}\nApplication: ${app}\nMessage: ${msg}`;
+            window.location.href = `https://wa.me/918078367097?text=${encodeURIComponent(body)}`;
+        });
+
+        // ===== INIT =====
+        renderServices();
+        renderRobots();
+        renderWhy();
+        renderExp();
+        renderAppShowcase();
+
+        console.log('SCI_BOTICS — Industrial Robotics & Automation');
+        console.log('24×7 Support: +91 8078367097');
+    </script>
+
+</body>
+</html>
